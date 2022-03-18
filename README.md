@@ -1,5 +1,5 @@
 # Robótica
-Prácticas Robótica MUVA
+## Práctica Follow Line
 
 
 
@@ -8,7 +8,7 @@ En primer lugar para la realización de la practiva tenemos que obtener la image
  ------incluir imagen vision inicial------ 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## Filtro de color
+### Filtro de color
  Una vez que ya tenmos la imagen lo que nos interesa es quedarnos ( en forma binaria ) con la linea roja ya que es lo que tienemos que seguir. Para esto las imagenes que vamos recibiendo las convertimos a HSV, ya que los cambios de iluminación le afectan menos. Para extraer la linea vamos a dar valores máximos y mínimos a cada canal
  - Canal H:  min = 0, max = 255
  - Canal S:  min = 77, max = 255
@@ -32,6 +32,37 @@ Para la obtención de los bordes utilizamos la sentencia "cv2.findContours", pos
     cv2.drawContours(img[y0:yf, x0:xf], contorno_up, -1, (0, 255, 0), 1)
     cv2.drawContours(img[y1: y1f, x1:x1f], contorno_down, -1, (0, 255, 0), 1)
 ````
+Una vez que ya tenemos el contorno obtenido mediante la sentencia "cv2.moments(contorno)" obtenemos la coordenada X, Y del centroide. En mi caso lo relizo 2 veces una para cada parte en la que tengo dividido mi parte de interes.
+Ya tenemos las coordenadas de nuestros centroides por lo que podemos actualizarlas, ya que las habiamos inicializado a -1 si las coordenadas obtenidas son -1 se queda igual que las inicializadas ( en iteraciones siguientes, se quedara con el valor anterior obtenido) y si no..pues nos quedamos con las actuales (en cada iteración se actualizan las coodenadas de los centroides obtenidas)
+Podemos obtener el error del centroide al centro, y así saber cuanto nos separamos de la vertical que seria el lugar perfecto del centroide (lo calculamos para ambos centroides) , X0 y X1 son 0 y mid_h es la mitad del tamaño de columnas de pixeles de la imagen.
+````pitón
+    err = (x_u + x0) - mid_h
+    err_b = (x_d + x1) - mid_h
+````
+
+ ----incluir imagen vision normal con liíneas y centroides -----
+                     
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+### PID 
+Calcula un valor de error como la diferencia entre la salida deseada y la salida actual y aplica una correción basada en terminos proporcionales, integrales y derivados.
+kp = da una salida que es proporcional al error actual. Si el error es cero kp=0
+ki = elimina el error de compensación que acumula el controlador kp. Integra el error durante un periodo de tiempo hasta que el valor del error llega a 0.
+kd = proporciona una salida que depende de la tasa de cambio o error con respecto al tiempo.
+
+Traducido a código para la obtencion del PID
+````pitón
+    p_err = - kp * err
+    d_err = - kd * (err - prev_err)
+    i_err = - ki * accum_err
+````
+Donde err es el error del centroide superior, prev_err es el error de la iteración anterior y acumm_err el acumulado. Estos valores se irán actializando en cada itación.
+El PID obtenido sera la suma de los 3 errores, que sera nuestra W.
+````pitón
+    pid = p_err + d_err + i_err
+````
+
+
+            
  
  
  
