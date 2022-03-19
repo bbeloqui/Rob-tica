@@ -13,6 +13,7 @@ En primer lugar para la realización de la practiva tenemos que obtener la image
  - Canal H:  min = 0, max = 255
  - Canal S:  min = 77, max = 255
  - Canal V:  min = 56, max = 255
+ 
 Luego, tenemos que unir los 3 canales para formar nuestra imagen y una vez que la tenemos realizamos una binarización con la sentencia "threshold". Una vez realizado esto ya tenemos la línea aislada para poder tratarla.
  
 ````
