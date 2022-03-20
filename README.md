@@ -102,8 +102,29 @@ Por último podemos dar la orden al coche de de que avance con las sentencias ``
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### No ve línea?
+Para incluir robustez a nuestro coche, tenemos que tener encuenta el momento en el que el coche no detecta línea. La finalidad de la función creada es intentar encontrar el centroide superior y si no lo encuentra girar un poco y volver a ver si lo encuentra. Esto se realizará hasta que encuentre el centro y ya comenzará a ejecutarse el codigo de forma "normal".
+````
+vuelta = True
 
-
+while vuelta:
+    img_vuelta = HAL.getImage()
+    GUI.showImage(img_vuelta)
+    color_vuelta = filtro_color(img_vuelta)
+    color_vuelta = color_vuelta[y0:yf, x0:xf]
+    contorno_vuelta, _ = cv2.findContours(color_vuelta, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    for i in contorno_vuelta:
+        M = cv2.moments(i)
+        if M['m00'] != 0:
+            x_v = int(M['m10'] / M['m00'])
+            y_v = int(M['m01'] / M['m00'])
+            
+    if x_v == -1 or y_v == -1:
+        HAL.setW(0.2)
+    else:
+        p_x_u = x_v
+        p_y_u = x_v
+        vuelta = False
+````
 ### Video de vuelta
 
 Ahora se mostrará un video del coche dando una vuelta. El tiempo en dar una vuelta y la velocidad son valores que se pueden ir variando hasta encontrar una solución que tenga el compromiso de ir lo mas rápido posiblre, pero sin chocarse con los muros y siguiendo la línea lo mas cerquita posible.
