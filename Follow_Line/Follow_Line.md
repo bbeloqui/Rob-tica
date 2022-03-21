@@ -20,7 +20,7 @@ Luego, tenemos que unir los 3 canales para formar nuestra imagen y una vez que l
     line = cv2.inRange(img_hsv, min_hsv, max_hsv) 
     _, line = cv2.threshold(line, 248, 255, cv2.THRESH_BINARY)
 ````
- ----incluir imagen vision binaria -----
+![](https://github.com/bbeloqui/Robotica/blob/main/Follow_Line/vision_binaria.PNG)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ Podemos obtener el error del centroide al centro, y así saber cuanto nos separa
     err_b = (x_d + x1) - mid_h
 ````
 
- ----incluir imagen vision normal con liíneas y centroides -----
+![](https://github.com/bbeloqui/Robotica/blob/main/Follow_Line/vision_general.PNG)
                      
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
 ### PID 
