@@ -5,7 +5,7 @@
 
 En primer lugar para la realización de la practiva tenemos que obtener la imagen de nuestro campo de visón. Para ello utilizamos la sentencia que nos proporcionan "HAL.getImage()". Con esta sentencia obtenems la imagen que vemos a conticuacón:
 
-https://github.com/bbeloqui/Robotica/blob/main/vision%20inicial.PNG
+https://github.com/bbeloqui/Robotica/visión inicual.PNG
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Filtro de color
