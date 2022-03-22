@@ -129,6 +129,8 @@ while vuelta:
 Ahora se mostrará un video del coche dando una vuelta. La velocidad es un valor que se pueden ir variando hasta encontrar una solución la cual tenga el compromiso de ir lo mas rápido posible, pero sin chocarse con los muros y siguiendo la línea lo más cerquita posible.
 Los valores con los que poder "jugar" son: kp, kd, ki, vc, sv, v_min, v_max
 Para el caso del video los valores son:
-v_min = 9, v_max = 35, kp = 0.009, kd = 0.005, ki = 0.002, vc = 0.75, sv = 0.1
+v_min = 9.5, v_max = 35, kp = 0.009, kd = 0.005, ki = 0.002, vc = 0.75, sv = 0.1
+Con estos parámetros el tiempo estimado es de 1.07 minutos.
+
 
 --añadir video
