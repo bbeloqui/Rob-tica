@@ -88,7 +88,7 @@ Una vez que tenemos ratio para la velocidad angular, introducimos una constante 
 ````
     v_radio = vc * v_radio0 + (1 - vc) * v_radio1
 ````
-Para suavizar estos cambios bruscos de velocidad se introduce la constante sv. v_ratio_ant, en la primera iteración será un valor que determinamos nosotros y en las iteaciones siguientes será el valor procedente de la secuencia antes mencionada.
+Para suavizar estos cambios bruscos de velocidad se introduce la constante sv v_ratio_ant, en la primera iteración será un valor que determinamos nosotros y en las iteaciones siguientes será el valor procedente de la secuencia antes mencionada.
 ````
     v_radio = sv * v_radio + (1 - sv) * v_ratio_ant
 ````
