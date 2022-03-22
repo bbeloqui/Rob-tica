@@ -132,4 +132,4 @@ Para el caso del video los valores son:
 v_min = 9.5, v_max = 35, kp = 0.009, kd = 0.005, ki = 0.002, vc = 0.75, sv = 0.1
 Con estos parámetros el tiempo estimado es de 1.07 minutos.
 
-[![](https://github.com/bbeloqui/Robotica/blob/main/Follow_Line/video_github.mp4)]
+[![Watch the video](https://github.com/bbeloqui/Robotica/blob/main/Follow_Line/video_github.mp4)
