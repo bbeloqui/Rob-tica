@@ -2,13 +2,13 @@
 
 
 
-En primer lugar para la realización de la práctica tenemos que obtener la imagen de nuestro campo de visón. Para ello utilizamos la sentencia que nos proporcionan "HAL.getImage()". Con esta sentencia obtenemos la imagen que vemos a continucaión:
+En primer lugar para la realización de la práctica tenemos que obtener la imagen de nuestro campo de visón. Para ello utilizamos la sentencia que nos proporcionan "HAL.getImage()". Con esta sentencia obtenemos la imagen que vemos a continucaión.
 
 ![](https://github.com/bbeloqui/Robotica/blob/main/Follow_Line/vision_inicial.PNG)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Filtro de color
- Una vez que ya tenmos la imagen lo que nos interesa es quedarnos ( en forma binaria ) con la línea roja ya que es lo que tienemos que seguir. Para esto las imágenes que vamos recibiendo las convertimos a HSV, ya que los cambios de iluminación le afectan menos. Para extraer la línea vamos a dar valores máximos y mínimos a cada canal.
+ Una vez que ya tenemos la imagen lo, que nos interesa es quedarnos ( en forma binaria ) con la línea roja ya que es lo que tienemos que seguir. Para esto las imágenes que vamos recibiendo las convertimos a HSV, ya que los cambios de iluminación le afectan menos. Para extraer la línea vamos a dar valores máximos y mínimos a cada canal.
  - Canal H:  min = 0, max = 255
  - Canal S:  min = 77, max = 255
  - Canal V:  min = 56, max = 255
@@ -46,9 +46,9 @@ Podemos obtener el error del centroide al centro, y así saber cuanto nos separa
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
 ### PID 
 Calcula un valor de error como la diferencia entre la salida deseada y la salida actual y aplica una correción basada en terminos proporcionales, integrales y derivados.
-kp = da una salida que es proporcional al error actual. Si el error es cero kp=0,
-ki = elimina el error de compensación que acumula el controlador kp. Integra el error durante un periodo de tiempo hasta que el valor del error llega a 0.
-kd = proporciona una salida que depende de la tasa de cambio o error con respecto al tiempo.
+- kp = da una salida que es proporcional al error actual. Si el error es cero kp=0.
+- ki = elimina el error de compensación que acumula el controlador kp. Integra el error durante un periodo de tiempo hasta que el valor del error llega a 0.
+- kd = proporciona una salida que depende de la tasa de cambio o error con respecto al tiempo.
 
 Traducido a código para la obtención del PID
 ````
