@@ -47,7 +47,67 @@ def rayo_direcional(pos, puntos2d):
     return np.append(punto2 - punto1, [1]), np.append(punto1, [1])  
 ````
 Donde esta función nos devuelve una recta formada por eun vector y un punto. En esta función utilizamos unas funciones que nos facilita el entorno:
-  - HAL.getCameraPosition: que devuelve la posición de la cámara.
-  - HAL.backproject: reproyecta un punto 2D al sistema de referencia 3D.
-  - HAL.graficToOptical
+  - HAL.getCameraPosition ('left/right'): para obtener la posición de la cámara izquierda/derecha desde ROS Driver Camera.
+  - HAL.backproject ('left', puntos 2D): para retroproyectar el punto de imagen 2D en el espacio de punto 3D
+  - HAL.graficToOptical ('left', puntos 2D): para transformar el Sistema de coordenadas de imagen en el Sistema de cámara
 
+Ya que tenemos el haz de retroproyección, ahora es necesario proyectarlo en la cámara derecha. Se crea una función que crea una mascara con la línea epipolar a partir del rayo de retroproyección.
+````
+def epipolar_proyeccion (pos, rayo, tamaño_mascara, grosor=9):
+    #calcula una proyeccion epipolar de un rayo a una imagen de camara
+    vd0 = rayo[0] + rayo[1]
+    proyeccion_vd0 = HAL.project(pos, vd0)
+    
+    vd1 = (10*rayo[0]) + rayo[1]
+    proyeccion_vd1 = HAL.project(pos, vd1)
+    #sistema de camara a sistema coor de la imagen
+    p0 = HAL.opticalToGrafic(pos, proyeccion_vd0)
+    p1 = HAL.opticalToGrafic(pos, proyeccion_vd1)
+    
+    vector = p1-p0
+    
+    rectay = lambda x, v:(v[1] * (x - p0[0]) / v[0]) + p0[1]
+    
+    p0 = np.array([0, rectay(0, vector)]).astype(np.int)
+    p1 = np.array([tamaño_mascara[1], rectay(tamaño_mascara[1], vector)]).astype(np.int)
+    
+    mascara = np.zeros(tamaño_mascara)
+    cv2.line(mascara, tuple(p0), tuple(p1), (1,1,1), grosor)
+    
+    return mascara.astype(bool)
+````
+Se toman 2 puntos de la línea de retroproyección y se proyectan sobre la imagen de la derecha, luego se calcula la línea que pasa por ambos puntos de la imagen, obteniendo los puntos extremos. 
+
+Se han utilizado las funciones proporcionadas por el entorno:
+    - HAL.project('left', puntos 3D): para retroproyectar un espacio de punto 3D en el punto de imagen 2D.
+    - HAL.opticalToGrafic('left', puntos 2D): para transformar el sistema de cámara en el sistema de coordenadas de imagen.
+
+Una vez que se tiene el punto y su proyección epipolar, es necesario encontrar su contraparte, en este caso se opta por aplicar machTemplate, función para la imagen de la franja epipolar, multiplicando la imagen de la derecha por la mascara anteriormente nombrada.
+
+falta imagen con la mascara
+
+Esto se implementa con la función:
+````
+def homologo (puntos2d, imagen_left, imagen_right, ep_mascara, grosor=9):  
+    #machTemplate y homologo
+    global left, right
+    
+    pad = grosor // 2
+    x, y = puntos2d[:2]
+    template = imagen_left[x - pad:x + 1 + pad, y - pad:y + 1 + pad]
+    
+    res = cv2.matchTemplate(imagen_right * ep_mascara, template, cv2.TM_CCOEFF_NORMED)
+    _, coeff, _, top_left = cv2.minMaxLoc(res)   #para encontar los valores maximos/minimos
+     
+    top_left = np.array(top_left)
+    match_point = top_left[::-1] + pad
+    
+    return match_point, coeff
+````
+Dado un punto 2D y la mascara epilpolar es capaz de calcular su homólogo.
+
+imagen resultado de toda la mascara en varios puntos
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Hata ahora ya tenemos lo pares de puntos homólogos, y ya se puede calcular ambos rayos de retroproyección y ver dondé se cruzan para calcular el punto 3D.
