@@ -108,6 +108,21 @@ Dado un punto 2D y la mascara epilpolar es capaz de calcular su homólogo.
 
 imagen resultado de toda la mascara en varios puntos
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Hata ahora ya tenemos lo pares de puntos homólogos, y ya se puede calcular ambos rayos de retroproyección y ver dondé se cruzan para calcular el punto 3D.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Resultados
+
+Los resultados de la práctica se muestran en el siguiente video y algunas imágenes. Los resultados que se ven no muestran todos los puntos posibles, ya que por tiempo no consigo mostrar todos ya que requiere mucho tiempo y el entorno cirrea la comunicacion con el Docker. Se representan aproximadamente 10.000 putnos.
+
+![3d4](https://user-images.githubusercontent.com/10534733/163683511-333d9cc9-64af-41b4-8991-7a5e60d75e5d.PNG)
+![3d1](https://user-images.githubusercontent.com/10534733/163683513-45b30f06-9a09-4c47-9c8c-7be1fee99893.PNG)
+![3d2](https://user-images.githubusercontent.com/10534733/163683514-ae084c48-19a5-4849-83e9-e614c86d2b75.PNG)
+![3d3](https://user-images.githubusercontent.com/10534733/163683515-605a2803-518e-46f8-a700-cd3ad84b1d24.PNG)
+
+https://user-images.githubusercontent.com/10534733/163683648-0e16a888-ceb3-4bdd-8ac2-16eb4dd6f98b.mp4
+
+
+
