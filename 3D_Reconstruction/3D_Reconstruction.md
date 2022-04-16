@@ -2,7 +2,7 @@
 
 En objetivo principal de esta práctica es la reconstrucción de una escena tridimensional a partir de 2 imágenes por un visor estéreo calibrado.
 
-[imagen de lapractica]
+![inicio](https://user-images.githubusercontent.com/10534733/163675761-85a4c77c-17cf-4717-94ad-be1ff0fadc5f.PNG)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
