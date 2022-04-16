@@ -81,7 +81,6 @@ Se han utilizado las funciones proporcionadas por el entorno:
 
 Una vez que se tiene el punto y su proyección epipolar, es necesario encontrar su contraparte, en este caso se opta por aplicar machTemplate, función para la imagen de la franja epipolar, multiplicando la imagen de la derecha por la mascara anteriormente nombrada.
 
-falta imagen con la mascara
 
 Esto se implementa con la función:
 ````
@@ -102,7 +101,7 @@ def homologo (puntos2d, imagen_left, imagen_right, ep_mascara, grosor=9):
 ````
 Dado un punto 2D y la mascara epilpolar es capaz de calcular su homólogo.
 
-imagen resultado de toda la mascara en varios puntos
+[imagen resultado de toda la mascara en varios puntos]
 
 
 Hata ahora ya tenemos lo pares de puntos homólogos, y ya se puede calcular ambos rayos de retroproyección y ver dondé se cruzan para calcular el punto 3D.
