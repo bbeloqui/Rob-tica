@@ -37,8 +37,6 @@ Donde puntos2d es la cantidad de puntos que forman los bordes y puntos los punto
 Ahora lo que calculamos es el rayo de retroproyección que pasa por el centro óptico de la cámara izquierda que pasa por ese punto y proyecta esta línea sobrela imagen obtenida por la cámara derecha. Para esto ejecutamos este código:
 ````
 def rayo_direcional(pos, puntos2d):
-    # El rayo va desde el centro optico a traves de los puntos2d
-
     y, x = puntos2d[:2]
     punto1 = HAL.getCameraPosition(pos)  
     # trans = HAL.graficToOptical(pos, [x, y, 1])
@@ -54,7 +52,6 @@ Donde esta función nos devuelve una recta formada por eun vector y un punto. En
 Ya que tenemos el haz de retroproyección, ahora es necesario proyectarlo en la cámara derecha. Se crea una función que crea una mascara con la línea epipolar a partir del rayo de retroproyección.
 ````
 def epipolar_proyeccion (pos, rayo, tamaño_mascara, grosor=9):
-    #calcula una proyeccion epipolar de un rayo a una imagen de camara
     vd0 = rayo[0] + rayo[1]
     proyeccion_vd0 = HAL.project(pos, vd0)
     
@@ -89,7 +86,6 @@ falta imagen con la mascara
 Esto se implementa con la función:
 ````
 def homologo (puntos2d, imagen_left, imagen_right, ep_mascara, grosor=9):  
-    #machTemplate y homologo
     global left, right
     
     pad = grosor // 2
@@ -97,7 +93,7 @@ def homologo (puntos2d, imagen_left, imagen_right, ep_mascara, grosor=9):
     template = imagen_left[x - pad:x + 1 + pad, y - pad:y + 1 + pad]
     
     res = cv2.matchTemplate(imagen_right * ep_mascara, template, cv2.TM_CCOEFF_NORMED)
-    _, coeff, _, top_left = cv2.minMaxLoc(res)   #para encontar los valores maximos/minimos
+    _, coeff, _, top_left = cv2.minMaxLoc(res)   
      
     top_left = np.array(top_left)
     match_point = top_left[::-1] + pad
