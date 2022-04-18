@@ -79,8 +79,8 @@ def epipolar_proyeccion (pos, rayo, tamaño_mascara, grosor=9):
 Se toman 2 puntos de la línea de retroproyección y se proyectan sobre la imagen de la derecha, luego se calcula la línea que pasa por ambos puntos de la imagen, obteniendo los puntos extremos. 
 
 Se han utilizado las funciones proporcionadas por el entorno:
-    - HAL.project('left', puntos 3D): para retroproyectar un espacio de punto 3D en el punto de imagen 2D.
-    - HAL.opticalToGrafic('left', puntos 2D): para transformar el sistema de cámara en el sistema de coordenadas de imagen.
+  - HAL.project('left', puntos 3D): para retroproyectar un espacio de punto 3D en el punto de imagen 2D.
+  - HAL.opticalToGrafic('left', puntos 2D): para transformar el sistema de cámara en el sistema de coordenadas de imagen.
 
 Una vez que se tiene el punto y su proyección epipolar, es necesario encontrar su contraparte, en este caso se opta por aplicar machTemplate, función para la imagen de la franja epipolar, multiplicando la imagen de la derecha por la mascara anteriormente nombrada.
 
