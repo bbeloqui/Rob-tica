@@ -73,6 +73,9 @@ def epipolar_proyeccion (pos, rayo, tamaño_mascara, grosor=9):
     
     return mascara.astype(bool)
 ````
+
+![izq_y_mascara](https://user-images.githubusercontent.com/10534733/163862873-87403b95-8b2c-4d59-a542-6dc2d5b5b05c.PNG)
+
 Se toman 2 puntos de la línea de retroproyección y se proyectan sobre la imagen de la derecha, luego se calcula la línea que pasa por ambos puntos de la imagen, obteniendo los puntos extremos. 
 
 Se han utilizado las funciones proporcionadas por el entorno:
