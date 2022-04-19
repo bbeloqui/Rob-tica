@@ -1,6 +1,6 @@
 # Práctica 3D_Reconstruction
 
-En objetivo principal de esta práctica es la reconstrucción de una escena tridimensional a partir de 2 imágenes por un visor estéreo calibrado.
+El objetivo principal de esta práctica es la reconstrucción de una escena tridimensional a partir de 2 imágenes por un visor estéreo calibrado.
 
 ![inicio](https://user-images.githubusercontent.com/10534733/163675761-85a4c77c-17cf-4717-94ad-be1ff0fadc5f.PNG)
 
@@ -8,7 +8,7 @@ En objetivo principal de esta práctica es la reconstrucción de una escena trid
 
 ## Desarrollo
 
-En primer lugar tendremos que buscar los puntos hómologos (pares). Para esto utilizamos el método Canny ya que es el que recomiendan para la realización de la práctica.
+En primer lugar tendremos que buscar los puntos hómologos (pares). Para esto utilizamos el método Canny ya que es el que recomienda para la realización de la práctica.
 Canny nos dará como resultado los bordes utilizando la información del gradiente.
 
 Partimos como ya se ha comentado antes de un visor estéreo que se compone de 2 cámaras (izquierda y derecha).
@@ -26,7 +26,7 @@ Tras tener la imagen, aplicamos Canny a la imagen de la cámara izquierda y obte
 
 ![camara_y_canny](https://user-images.githubusercontent.com/10534733/163605683-225c04df-7ea2-464f-acd2-fa573348b8a6.PNG)
 
-Una vez que ya tenemos los bordes, lo que hacemos a continuación, es obtener las coordenadas de los puntos que conforman los bordes (unos 18k). A la hora de representar estos puntos solo representaresmos unos 10.000 punto de forma aleatoria. Para ello usamos:
+Una vez que ya tenemos los bordes, lo que hacemos a continuación es obtener las coordenadas de los puntos que conforman los bordes (unos 18k). A la hora de representar estos puntos solo representaresmos unos 10.000 puntos de forma aleatoria. Para ello usamos:
 ````
 puntos2d = random.sample(puntos2d, puntos)
 ````
@@ -34,7 +34,7 @@ Donde puntos2d es la cantidad de puntos que forman los bordes y puntos los punto
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Ahora lo que calculamos es el rayo de retroproyección que pasa por el centro óptico de la cámara izquierda que pasa por ese punto y proyecta esta línea sobrela imagen obtenida por la cámara derecha. Para esto ejecutamos este código:
+Ahora lo que calculamos es el rayo de retroproyección que pasa por el centro óptico de la cámara izquierda que pasa por ese punto y proyecta esta línea sobre la imagen obtenida por la cámara derecha. Para ésto ejecutamos este código:
 ````
 def rayo_direcional(pos, puntos2d):
     y, x = puntos2d[:2]
@@ -44,12 +44,12 @@ def rayo_direcional(pos, puntos2d):
 
     return np.append(punto2 - punto1, [1]), np.append(punto1, [1])  
 ````
-Donde esta función nos devuelve una recta formada por eun vector y un punto. En esta función utilizamos unas funciones que nos facilita el entorno:
+Donde esta función nos devuelve una recta formada por un vector y un punto. En esta función utilizamos unas funciones que nos facilitan el entorno:
   - HAL.getCameraPosition ('left/right'): para obtener la posición de la cámara izquierda/derecha desde ROS Driver Camera.
-  - HAL.backproject ('left', puntos 2D): para retroproyectar el punto de imagen 2D en el espacio de punto 3D
-  - HAL.graficToOptical ('left', puntos 2D): para transformar el Sistema de coordenadas de imagen en el Sistema de cámara
+  - HAL.backproject ('left', puntos 2D): para retroproyectar el punto de imagen 2D en el espacio de punto 3D.
+  - HAL.graficToOptical ('left', puntos 2D): para transformar el sistema de coordenadas de imagen en el sistema de cámara.
 
-Ya que tenemos el haz de retroproyección, ahora es necesario proyectarlo en la cámara derecha. Se crea una función que crea una mascara con la línea epipolar a partir del rayo de retroproyección.
+Ya que tenemos el haz de retroproyección, ahora es necesario proyectarlo en la cámara derecha. Se crea una función que crea una máscara con la línea epipolar a partir del rayo de retroproyección.
 ````
 def epipolar_proyeccion (pos, rayo, tamaño_mascara, grosor=9):
     vd0 = rayo[0] + rayo[1]
@@ -82,7 +82,7 @@ Se han utilizado las funciones proporcionadas por el entorno:
   - HAL.project('left', puntos 3D): para retroproyectar un espacio de punto 3D en el punto de imagen 2D.
   - HAL.opticalToGrafic('left', puntos 2D): para transformar el sistema de cámara en el sistema de coordenadas de imagen.
 
-Una vez que se tiene el punto y su proyección epipolar, es necesario encontrar su contraparte, en este caso se opta por aplicar machTemplate, función para la imagen de la franja epipolar, multiplicando la imagen de la derecha por la mascara anteriormente nombrada.
+Una vez que se tiene el punto y su proyección epipolar, es necesario encontrar su contraparte, en este caso se opta por aplicar machTemplate, función para la imagen de la franja epipolar, multiplicando la imagen de la derecha por la máscara anteriormente nombrada.
 
 
 Esto se implementa con la función:
@@ -102,15 +102,15 @@ def homologo (puntos2d, imagen_left, imagen_right, ep_mascara, grosor=9):
     
     return match_point, coeff
 ````
-Dado un punto 2D y la mascara epilpolar es capaz de calcular su homólogo.
+Dado un punto 2D y la máscara epilpolar es capaz de calcular su homólogo.
 
-Hata ahora ya tenemos lo pares de puntos homólogos, y ya se puede calcular ambos rayos de retroproyección y ver dondé se cruzan para calcular el punto 3D.
+Hasta ahora ya tenemos los pares de puntos homólogos, y ya se pueden calcular ambos rayos de retroproyección y ver dondé se cruzan para calcular el punto 3D.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Resultados
 
-Los resultados de la práctica se muestran en el siguiente video y algunas imágenes. Los resultados que se ven no muestran todos los puntos posibles, ya que por tiempo no consigo mostrar todos ya que requiere mucho tiempo y el entorno cirrea la comunicacion con el Docker. Se representan aproximadamente 10.000 putnos.
+Los resultados de la práctica se muestran en el siguiente video y algunas imágenes. Los resultados que se ven no muestran todos los puntos posibles, ya que por tiempo no consigo mostrar todos ya que requiere mucho tiempo y el entorno cierra la comunicacion con el Docker. Se representan aproximadamente 10.000 putnos.
 
 ![3d4](https://user-images.githubusercontent.com/10534733/163683511-333d9cc9-64af-41b4-8991-7a5e60d75e5d.PNG)
 ![3d1](https://user-images.githubusercontent.com/10534733/163683513-45b30f06-9a09-4c47-9c8c-7be1fee99893.PNG)
